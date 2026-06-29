@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Масажка — Масажний Салон у Гуртожитку</title>
+    <style>
+        :root {
+            --bg-color: #f7f5f0;
+            --text-color: #2c2a29;
+            --accent-color: #7a6b5e;
+            --secondary-bg: rgba(244, 240, 235, 0.6);
+            --border-color: #e6e1da;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f2eb;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 0 20px;
+            overflow-x: hidden;
+        }
+
+        header {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border-radius: 0 0 16px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01);
+            opacity: 0;
+            animation: fadeInDown 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--text-color);
+            text-transform: uppercase;
+            text-align: center;
+            margin-right: -4px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s;
+            padding: 4px 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background-color: var(--text-color);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translateX(-50%);
+        }
+
+        nav a:hover {
+            color: var(--text-color);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 0;
+        }
+
+        .hero {
+            margin-bottom: 100px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+            color: var(--text-color);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--accent-color);
+            max-width: 650px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(122, 107, 94, 0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        section {
+            margin-bottom: 100px;
+            scroll-margin-top: 140px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUpSection 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        section:nth-of-type(1) { animation-delay: 0.3s; }
+        section:nth-of-type(2) { animation-delay: 0.5s; }
+        section:nth-of-type(3) { animation-delay: 0.7s; }
+
+        section h2 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 36px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            text-align: center;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 30px;
+            height: 1.5px;
+            background-color: var(--accent-color);
+            transform: translateX(-50%);
+        }
+
+        .services-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 600px) {
+            .services-list {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .services-list li {
+            padding: 24px;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.005);
+        }
+
+        .services-list li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(122, 107, 94, 0.05);
+            border-color: var(--accent-color);
+        }
+
+        .specialists-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        @media (min-width: 600px) {
+            .specialists-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .member-card {
+            background: var(--glass-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(122, 107, 94, 0.06);
+        }
+
+        .member-img-container {
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+            background-color: #edeae3;
+            position: relative;
+        }
+
+        .member-img-container::before {
+            content: 'Фото завантажується...';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent-color);
+            font-size: 13px;
+            background: #eae6dd;
+            z-index: 1;
+        }
+
+        .member-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .member-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .member-info {
+            padding: 28px;
+            text-align: center;
+        }
+
+        .member-info h3 {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .member-role {
+            font-size: 13px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .member-desc {
+            font-size: 15px;
+            color: #555;
+            font-weight: 300;
+        }
+
+        .payment-box {
+            background: var(--glass-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            text-align: center;
+        }
+
+        .payment-box p {
+            margin-bottom: 24px;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .currency-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--text-color);
+            color: #fff;
+            transform: scale(1.03);
+        }
+
+        .duration-notice {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+            font-style: italic;
+            color: var(--accent-color);
+            font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .reviews-container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .review-form {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 16px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .review-form input, .review-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .review-form input:focus, .review-form textarea:focus {
+            border-color: var(--accent-color);
+        }
+
+        .submit-btn {
+            background: var(--text-color);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s, transform 0.2s;
+            align-self: flex-start;
+        }
+
+        .submit-btn:hover {
+            background: #403e3d;
+        }
+        
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .review-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: fadeInDown 0.4s ease forwards;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .review-name {
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .review-date {
+            font-size: 12px;
+            color: var(--accent-color);
+        }
+
+        .review-text {
+            font-size: 15px;
+            font-weight: 300;
+            word-break: break-word;
+        }
+
+        footer {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 60px 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: var(--accent-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        @media (min-width: 600px) {
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUpSection {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Масажка</div>
+        <nav>
+            <a href="#about">Про нас</a>
+            <a href="#team">Майстри</a>
+            <a href="#payment">Оплата</a>
+            <a href="#reviews">Відгуки</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="about">
+            <span class="badge">Кімната №239 • Відкриття відбулося</span>
+            <h1>Найкращий масажний салон у вашому гуртожитку</h1>
+            <p>Тут на вас чекають повний релакс, професійне розслаблення та чудовий настрій після важкого навчального чи робочого дня. Індивідуальний підхід до кожного гостя гарантовано.</p>
+        </section>
+
+        <section id="services">
+            <h2>Наші компетенції</h2>
+            <ul class="services-list">
+                <li><span>🦴</span> Травматологічний підхід</li>
+                <li><span>♿</span> Елементи реабілітації</li>
+                <li><span>👩‍⚕️</span> Консультації гінеколога</li>
+                <li><span>👨‍⚕️</span> Консультації уролога</li>
+                <li><span>💆</span> Сертифікований класичний масаж</li>
+            </ul>
+        </section>
+
+        <section id="team">
+            <h2>Наші спеціалісти</h2>
+            <div class="specialists-grid">
+                <div class="member-card">
+                    <div class="member-img-container">
+                        <img src="image.png" alt="Михайло" onerror="this.style.display='none';">
+                    </div>
+                    <div class="member-info">
+                        <h3>Михайло</h3>
+                        <div class="member-role">Провідний спеціаліст, сертифікований масажист</div>
+                        <p class="member-desc">Майстер точкового масажу та глибокого розслаблення. Легко знаходить індивідуальний підхід та повертає бадьорість м'язам у будь-який час доби.</p>
+                    </div>
+                </div>
+
+                <div class="member-card">
+                    <div class="member-img-container">
+                        <img src="image_2.png" alt="Павло" onerror="this.style.display='none';">
+                    </div>
+                    <div class="member-info">
+                        <h3>Павло</h3>
+                        <div class="member-role">Реабілітолог, експерт з тонусу м'язів</div>
+                        <p class="member-desc">Спеціалізується на знятті напруги та стресу після важких сесій. Завжди забезпечить відмінний настрій та професійне відновлення сил.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="payment">
+            <h2>Гнучка оплата</h2>
+            <div class="payment-box">
+                <p>Ми цінуємо ваш комфорт і приймаємо не лише гроші, а й будь-які інші затишні та смачні еквіваленти за попереднім погодженням:</p>
+                <div class="currency-tags">
+                    <span class="tag">🍜 Мівіна та швидка локшина</span>
+                    <span class="tag">🍪 Печиво, вафлі, шоколад</span>
+                    <span class="tag">🥤 Соки, газована вода, енергетики</span>
+                    <span class="tag">🍫 Чіпси, сухарики, снеки</span>
+                    <span class="tag">🍎 Свіжі фрукти та інша смачна їжа</span>
+                </div>
+                <div class="duration-notice">
+                    <strong>⏳ Тривалість сеансу:</strong> Час масажу прямо залежить від кількості та якості наданої смакоти. Чим смачніша та щедріша оплата — тим довша й приємніша процедура!
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews">
+            <h2>Відгуки гостей</h2>
+            <div class="reviews-container">
+                
+                <form class="review-form" id="reviewForm">
+                    <div class="form-group">
+                        <label for="reviewerName">Ваше ім'я чи кімната</label>
+                        <input type="text" id="reviewerName" placeholder="Наприклад, Олена з 245 або Анонім" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewContent">Враження від масажу (або скільки мівіни принесли)</label>
+                        <textarea id="reviewContent" rows="4" placeholder="Поділіться своїми враженнями..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Залишити відгук</button>
+                </form>
+
+                <div class="reviews-list" id="reviewsList">
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-name">Макс з 231 кімнати</span>
+                            <span class="review-date">Сьогодні</span>
+                        </div>
+                        <p class="review-text">Хлопці просто топ! Приніс пачку гострої Мівіни та два енергетики — розім'яли спину так, ніби заново народився після модульної контрольної. Рекомендую!</p>
+                    </div>
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-name">Катя</span>
+                            <span class="review-date">Вчора</span>
+                        </div>
+                        <p class="review-text">Дуже затишна атмосфера у 239 кімнаті, хлопці ввічливі. Консультація теж дуже допомогла. Прийду ще, з мене печиво!</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div>📍 Чекаємо на вас: Кімната №239 (Гуртожиток)</div>
+        <div>⚠️ Кількість місць обмежена. Завітайте за гарним настроєм!</div>
+    </footer>
+
+    <script>
+        const reviewForm = document.getElementById('reviewForm');
+        const reviewsList = document.getElementById('reviewsList');
+
+        function loadReviews() {
+            const savedReviews = localStorage.getItem('masazhka_reviews');
+            if (savedReviews) {
+                const reviews = JSON.parse(savedReviews);
+                reviewsList.innerHTML = '';
+                reviews.forEach(review => {
+                    addReviewToDOM(review.name, review.text, review.date);
+                });
+            }
+        }
+
+        function addReviewToDOM(name, text, date) {
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            reviewItem.innerHTML = `
+                <div class="review-header">
+                    <span class="review-name">${escapeHTML(name)}</span>
+                    <span class="review-date">${date}</span>
+                </div>
+                <p class="review-text">${escapeHTML(text)}</p>
+            `;
+            reviewsList.insertBefore(reviewItem, reviewsList.firstChild);
+        }
+
+        function saveReview(name, text, date) {
+            let reviews = localStorage.getItem('masazhka_reviews') ? JSON.parse(localStorage.getItem('masazhka_reviews')) : [];
+            
+            if (reviews.length === 0 && document.querySelectorAll('.review-item').length > 0 && !localStorage.getItem('masazhka_initialized')) {
+                reviews.push({ name: "Катя", text: "Дуже затишна атмосфера у 239 кімнаті, хлопці ввічливі. Консультація теж дуже допомогла. Прийду ще, з мене печиво!", date: "Вчора" });
+                reviews.push({ name: "Макс з 231 кімнати", text: "Хлопці просто топ! Приніс пачку гострої Мівіни та два енергетики — розім'яли спину так, ніби заново народився після модульної контрольної. Рекомендую!", date: "Сьогодні" });
+                localStorage.setItem('masazhka_initialized', 'true');
+            }
+
+            reviews.push({ name, text, date });
+            localStorage.setItem('masazhka_reviews', JSON.stringify(reviews));
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        reviewForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('reviewerName');
+            const contentInput = document.getElementById('reviewContent');
+            const name = nameInput.value.trim();
+            const text = contentInput.value.trim();
+            const date = 'Щойно';
+
+            if (name && text) {
+                addReviewToDOM(name, text, date);
+                saveReview(name, text, date);
+                nameInput.value = '';
+                contentInput.value = '';
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', loadReviews);
+    </script>
+</body>
+</html>
